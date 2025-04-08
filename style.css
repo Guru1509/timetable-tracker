@@ -1,0 +1,89 @@
+body {
+    margin: 0;
+    padding: 20px;
+    background-color: #0e0e17;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+  }
+  
+  .heading {
+    text-align: center;
+    color: #00ffee;
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  
+  .form-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+  }
+  
+  .form-box input,
+  .form-box select,
+  .form-box button {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #1e1e2f;
+    color: #fff;
+    outline: none;
+  }
+  
+  .form-box button {
+    background-color: #00ffaa;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .timetable table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  
+  th, td {
+    border: 1px solid #2f2f44;
+    padding: 10px;
+    text-align: center;
+    min-width: 70px;
+  }
+  
+  th {
+    background-color: #1a1a2f;
+    color: #00f7ff;
+  }
+  
+  td.empty {
+    background-color: #1c1c2e;
+    color: #555;
+  }
+  
+  td.filled {
+    background-color: #98fb9815;
+    color: #90ee90;
+    font-weight: 500;
+  }
+  
+  td.lunch {
+    background-color: #333345;
+    font-weight: bold;
+    color: #fbd786;
+  }
+  
+  @media (max-width: 768px) {
+    .timetable table {
+      font-size: 11px;
+    }
+  }
+  .room {
+    display: block;
+    font-size: 11px;
+    color: #ffc;
+    margin-top: 2px;
+  }
+  

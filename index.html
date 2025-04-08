@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Timetable</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 class="heading">🗓️ Timetable</h1>
+
+  <div class="form-box">
+    <input type="text" id="subject" placeholder="Enter Class Name">
+    <input type="text" id="room" placeholder="Enter Classroom No (e.g., AB2-404)">
+    <select id="day">
+      <option value="">Select Day</option>
+      <option>MON</option>
+      <option>TUE</option>
+      <option>WED</option>
+      <option>THU</option>
+      <option>FRI</option>
+      <option>SAT</option>
+      <option>SUN</option>
+    </select>
+    <select id="period">
+      <option value="">Select Period</option>
+      <option value="0">1st Period: 08:00–08:50</option>
+      <option value="1">2nd Period: 08:55–09:45</option>
+      <option value="2">3rd Period: 09:50–10:40</option>
+      <option value="3">4th Period: 10:45–11:35</option>
+      <option value="4">5th Period: 11:40–12:30</option>
+      <option value="5">6th Period: 12:35–13:25</option>
+      <option value="6">Lunch</option>
+      <option value="7">7th Period: 14:00–14:50</option>
+      <option value="8">8th Period: 14:55–15:45</option>
+      <option value="9">9th Period: 15:50–16:40</option>
+      <option value="10">10th Period: 16:45–17:35</option>
+      <option value="11">11th Period: 17:40–18:30</option>
+      <option value="12">12th Period: 18:35–19:25</option>
+    </select>
+    <button onclick="addEntry()">➕ Add Entry</button>
+  </div>
+
+
+  <div class="timetable">
+    <table id="timetable">
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>08:00<br>08:50<br>⏱50</th>
+          <th>08:55<br>09:45<br>⏱50</th>
+          <th>09:50<br>10:40<br>⏱50</th>
+          <th>10:45<br>11:35<br>⏱50</th>
+          <th>11:40<br>12:30<br>⏱50</th>
+          <th>12:35<br>13:25<br>⏱50</th>
+          <th>Lunch<br>13:25–14:00</th>
+          <th>14:00<br>14:50<br>⏱50</th>
+          <th>14:55<br>15:45<br>⏱50</th>
+          <th>15:50<br>16:40<br>⏱50</th>
+          <th>16:45<br>17:35<br>⏱50</th>
+          <th>17:40<br>18:30<br>⏱50</th>
+          <th>18:35<br>19:25<br>⏱50</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <!-- Rows added by JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+    const totalPeriods = 13;
+
+    // Initialize blank rows
+    window.onload = () => {
+      const tbody = document.getElementById("tableBody");
+      days.forEach(day => {
+        const row = document.createElement("tr");
+        row.id = day;
+        const dayCell = document.createElement("td");
+        dayCell.textContent = day;
+        row.appendChild(dayCell);
+
+        for (let i = 0; i < totalPeriods; i++) {
+          const td = document.createElement("td");
+          td.classList.add("empty");
+          row.appendChild(td);
+        }
+
+        tbody.appendChild(row);
+      });
+    };
+
+    function addEntry() {
+      const subject = document.getElementById("subject").value.trim();
+      const room = document.getElementById("room").value.trim();
+      const day = document.getElementById("day").value;
+      const period = document.getElementById("period").value;
+
+      if (!subject || !room || !day || period === "") {
+        alert("Please fill all the fields.");
+        return;
+      }
+
+      const cell = document.getElementById(day).children[parseInt(period) + 1];
+      cell.innerHTML = `${subject}<br><span class="room">${room}</span>`;
+      cell.classList.remove("empty");
+      cell.classList.add("filled");
+    }
+
+  </script>
+</body>
+</html>
