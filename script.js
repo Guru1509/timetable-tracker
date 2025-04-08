@@ -1,58 +1,38 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("classForm");
-  const timetable = document.getElementById("timetable");
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("timetable-form");
+    const tableBody = document.querySelector("#timetable tbody");
 
-  // Initialize timepickers
-  flatpickr(".timepicker", {
-    enableTime: true,
-    noCalendar: true,
-    dateFormat: "H:i",
-    time_24hr: true,
-  });
+    // Load from localStorage
+    const savedEntries = JSON.parse(localStorage.getItem("timetableEntries")) || [];
+    savedEntries.forEach(entry => addRowToTable(entry));
 
-  // Load saved data from localStorage
-  const savedClasses = JSON.parse(localStorage.getItem("classes")) || [];
-  savedClasses.forEach(entry => renderClass(entry));
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    const subject = document.getElementById("subject").value;
-    const classroom = document.getElementById("classroom").value;
-    const startTime = document.getElementById("startTime").value;
-    const endTime = document.getElementById("endTime").value;
+        const day = form.day.value;
+        const period = form.period.value;
+        const time = form.time.value;
+        const classroom = form.classroom.value;
 
-    const duration = getDuration(startTime, endTime);
+        const entry = { day, period, time, classroom };
 
-    const newEntry = { subject, classroom, startTime, endTime, duration };
+        addRowToTable(entry);
 
-    // Save to localStorage
-    savedClasses.push(newEntry);
-    localStorage.setItem("classes", JSON.stringify(savedClasses));
+        // Save to localStorage
+        savedEntries.push(entry);
+        localStorage.setItem("timetableEntries", JSON.stringify(savedEntries));
 
-    renderClass(newEntry);
-    form.reset();
-  });
+        form.reset();
+    });
 
-  function renderClass({ subject, classroom, startTime, endTime, duration }) {
-    const entry = document.createElement("div");
-    entry.classList.add("entry");
-
-    entry.innerHTML = `
-      <div><strong>${subject}</strong></div>
-      <div>📍 ${classroom}</div>
-      <div>🕒 ${startTime} - ${endTime}</div>
-      <div>⏱ ${duration}</div>
-    `;
-
-    timetable.appendChild(entry);
-  }
-
-  function getDuration(start, end) {
-    const [sh, sm] = start.split(":").map(Number);
-    const [eh, em] = end.split(":").map(Number);
-    const startMin = sh * 60 + sm;
-    const endMin = eh * 60 + em;
-    const diff = endMin - startMin;
-    return `${diff} mins`;
-  }
+    function addRowToTable(entry) {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${entry.day}</td>
+            <td>${entry.period}</td>
+            <td>${entry.time}</td>
+            <td>${entry.classroom}</td>
+        `;
+        tableBody.appendChild(row);
+    }
 });
