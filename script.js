@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("timetable-form");
     const tableBody = document.querySelector("#timetable tbody");
 
-    // Load from localStorage
+    // Load saved entries from localStorage
     const savedEntries = JSON.parse(localStorage.getItem("timetableEntries")) || [];
     savedEntries.forEach(entry => addRowToTable(entry));
 
@@ -11,17 +11,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const day = form.day.value;
         const period = form.period.value;
-        const time = form.time.value;
+        const startTime = form.startTime.value;
+        const endTime = form.endTime.value;
         const classroom = form.classroom.value;
 
-        const entry = { day, period, time, classroom };
-
-        addRowToTable(entry);
-
-        // Save to localStorage
+        const entry = { day, period, startTime, endTime, classroom };
         savedEntries.push(entry);
+
+        // Save updated entries
         localStorage.setItem("timetableEntries", JSON.stringify(savedEntries));
 
+        addRowToTable(entry);
         form.reset();
     });
 
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
         row.innerHTML = `
             <td>${entry.day}</td>
             <td>${entry.period}</td>
-            <td>${entry.time}</td>
+            <td>${entry.startTime} – ${entry.endTime}</td>
             <td>${entry.classroom}</td>
         `;
         tableBody.appendChild(row);
